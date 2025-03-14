@@ -25,11 +25,6 @@ ipcRenderer.on("DBData", (ev, dbData : string)=>{
     emit("DBData", dbData);
 });
 
-/*
-ipcRenderer.on("queryResult", (ev, result : string) => {
-    emit("queryResult", result);
-});
-*/
 
 
 const preload = {
@@ -43,11 +38,13 @@ const preload = {
         //console.log("passing start to window");
         ipcRenderer.send("start");
     },
-    runQuery(query:string, params: any[] = []){
-
-        ipcRenderer.send("runQuery",query,params);
-        
-    }
+    
+    async runQuery(query:string, params: any[] = []){
+        return await ipcRenderer.invoke("runQuery", query, params);
+      },
+    async getData(query:string, params: any[] = []){
+        return await ipcRenderer.invoke("getData", query, params);
+      }
 }
 
 export type Preload = typeof preload;

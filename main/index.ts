@@ -38,13 +38,13 @@ app.on("ready",()=>{
     //  This way it works properly but we can get back a answer like in the case of getData because it prints directly on the consolo
     //  so the best way would be to handle in the same way with promises
 
-    //dbManager.runQuery("INSERT INTO NewTable (name, age) VALUES (?, ?);", ["Ven", null]);
+    //dbManager.runQuery("INSERT INTO NewTable (name, age) VALUES (?, ?);", ["Jane", null]);
 
     // getData:
     // In the case of getting data it needs to be handled a bit different since we're using promise, we need to handle
     // both cases with .then (get the data stored in rows) and .catch (catch the error in case it exists)
     /*
-    dbManager.getData("SELECT * FROM NewTable WHERE name = ?", ["Lia"])
+    dbManager.getData("SELECT * FROM NewTable WHERE name = ?", ["Jane"])
     .then(rows => {
         console.log("Resultados:", rows); 
     })
@@ -68,39 +68,26 @@ app.on("ready",()=>{
 
     // This sets up communication, sWhen this event is triggered from the renderer,
     // it executes the query and sends back a reply with the result.
-    // The structure would be (Name_event, ( event, parameters ..))
+    // The structure would be (Name_event, async ( event, parameters ..))
 
-    Window.webContents.ipc.on("runQuery", (event, query: string, params: any[] = []) => {
-        
-        //When it's called it execute the query
-        dbManager.runQuery(query, params)
+    // The handle operates after it's invokated from the preload
 
-        //From here u handle the response, whetever if it's a success or a error
-        .then((message) => {
-            event.reply("queryResult",{success: true, message});
-        })
-
-        .catch(err => {
-            event.reply("queryResult", {success : false, error: err.message});
-        });
+    Window.webContents.ipc.handle("runQuery", async (event, query: string, params: any[] = []) => {
+        try{
+           return {success: true, result: await dbManager.runQuery(query, params) }
+        }catch(err) {
+            return {success : false, error: err.message};
+        }
     });
-
             
-    
-    Window.webContents.ipc.on("getData",(event, query: string, params: any[] = []) =>{
-
-        dbManager.getData(query, params)
-
-        .then(rows => {
-            event.reply("getDataResult",{success : true, rows});
-        })
-
-        .catch(err =>{
-            event.reply("getDataResult", { success : false, error: err.nessage});
-        })
-
+    Window.webContents.ipc.handle("getData", async (event, query: string, params: any[] = []) => {
+        try{
+           return {success: true, result: await dbManager.getData(query, params) }
+        }catch(err) {
+            return {success : false, error: err.message};
+        }
     });
-
+            
 
 });
 
