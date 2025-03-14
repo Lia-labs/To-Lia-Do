@@ -9,5 +9,5 @@ window.preload.on("DBData", (data : string)=>{
 //window.preload.on("runQuery",)
 
 window.preload.start();
-window.preload.runQuery("INSERT INTO NewTable (name, age) VALUES (?, ?);", ["Alejandro", 13]);
+//window.preload.runQuery("INSERT INTO NewTable (name, age) VALUES (?, ?);", ["Alejandro", 13]);
 console.log("It's theorically done");
