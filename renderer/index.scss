@@ -5,13 +5,41 @@ body, html{
 } 
 
 main{
-    background-color:blue;
-    width:50%; height:50%;
-    div{
-        width:50%;
-        height:50%;
-        background-color:green;
+    background-color: blue;
+    width: 70%;
+    height: 70%;
+   
+    
+    #container1{
+        background-color: purple;
+        height: 20%;
+
     }
+
+    table {     
+        font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+        font-size: 12px;    
+        margin: 5px;     
+        width: 95%; 
+        text-align: left;     
+    }
+    
+    th {     
+        font-size: 13px;     
+        font-weight: normal;     
+        padding: 8px;     
+        background: #b9c9fe;
+        border-top: 4px solid #aabcfe;    
+        border-bottom: 1px solid #fff; 
+        color: #039; }
+    
+    td {    
+        padding: 8px;     
+        background: #e8edff;     
+        border-bottom: 1px solid #fff;
+        color: #669;    
+        border-top: 1px solid transparent; }
+    
 }
 
 
