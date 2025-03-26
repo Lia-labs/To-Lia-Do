@@ -29,6 +29,24 @@ export default class DatabaseManager {
                 console.log('Connected to the database');
             }
         });
+
+
+        //The idea is crate now the table in the db, so technically nothing happens if it's already created or creates
+        //  it if it doesn't exist
+
+        this.db.run(`CREATE TABLE IF NOT EXISTS Tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            TaskName TEXT NOT NULL,
+            lim_time TEXT,
+            Rep TEXT NOT NULL,
+            Type TEXT NOT NULL,
+            Status TEXT NOT NULL)`);
+
+
+
+
+
+
     }
     // Public allows to access the function, in other words it's not private or protected. Would be as not writting nothign as a default in Python.
     // Allows to do sql consults without return, the point is not getting data
