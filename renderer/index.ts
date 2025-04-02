@@ -1,5 +1,6 @@
 import "./index.scss";
 
+
 const table = document.getElementById("table");
 
 //console.log(window.preload);
@@ -75,6 +76,46 @@ Object.entries(base_consult["result"]).forEach(([user, details]) => {
 
     table.innerHTML += row;
   });
+
+
+
+  let lastExecutedHour: number | null = null; // This is to avoid that the event gets executed each millisecond when the time is right
+
+  function calculateTimeUntilNextHour(): number {
+      const now = new Date();
+      const nextTime = new Date(now);
+      nextTime.setHours(now.getHours() + 1, 0, 0, 0);
+      
+      return nextTime.getTime() - now.getTime(); // returns how much is left until the next natural hour
+  }
+  
+  function runEventOnTest() {
+      const now = new Date();
+      if (lastExecutedHour === now.getHours()) return; // Avoid executing in the same hour
+      
+      console.log("🕒 Running test event (every hour)...");
+      lastExecutedHour = now.getHours(); 
+  }
+  
+  function startHourlyCheck() {
+      function checkTime() {
+          const timeRemaining = calculateTimeUntilNextHour();
+  
+          if (timeRemaining <= 0) {
+              runEventOnTest();
+              setTimeout(checkTime, calculateTimeUntilNextHour());
+          } else {
+              setTimeout(checkTime, timeRemaining);
+          }
+      }
+  
+      checkTime(); //Verification
+  }
+  
+  // This is what turns on the hourly loop
+  startHourlyCheck();
+  
+
 
 
 console.log("It's theorically done");

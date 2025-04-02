@@ -4,6 +4,8 @@ import DatabaseManager from './db_functions';
 import { error } from "console";
 import { eventNames } from "process";
 
+
+
 const dbManager = new DatabaseManager();
 
 
@@ -88,6 +90,10 @@ app.on("ready",()=>{
         }
     });
             
+
+
+
+
 
 });
 
